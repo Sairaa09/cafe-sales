@@ -45,6 +45,14 @@ df.loc[mask,'total_spent'] = df.loc[mask,'quantity'] * df.loc[mask,'price_per_un
 df=df.dropna(subset=['total_spent'])
 # print(df['total_spent'].isna().sum(),'rows with NaN total_spent after dropping rows with NaN values.')
 
+# Explanation:
+# We do NOT fill NaN values in 'quantity', 'price_per_unit', or 'transaction_date' because:
+# 1. 'quantity' and 'price_per_unit' are critical numeric columns for total_spent calculation.
+#    Filling with 0 or median could give misleading total_spent values.
+# 2. 'transaction_date' is important for time-based analysis.
+#    Filling missing dates arbitrarily could distort trends or analysis results.
+# Therefore, we keep these NaN values or drop affected rows when necessary.
+
 # Clean categorical columns
 cat_col=['item','payment_method','location']
 for col in cat_col:
